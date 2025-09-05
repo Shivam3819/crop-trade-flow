@@ -14,7 +14,222 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contracts: {
+        Row: {
+          acreage: number | null
+          buyer_id: string
+          created_at: string
+          crop: string
+          end_date: string
+          farmer_id: string
+          id: string
+          price: number
+          quantity: number | null
+          start_date: string
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          acreage?: number | null
+          buyer_id: string
+          created_at?: string
+          crop: string
+          end_date: string
+          farmer_id: string
+          id?: string
+          price: number
+          quantity?: number | null
+          start_date: string
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          acreage?: number | null
+          buyer_id?: string
+          created_at?: string
+          crop?: string
+          end_date?: string
+          farmer_id?: string
+          id?: string
+          price?: number
+          quantity?: number | null
+          start_date?: string
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contracts_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "contracts_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      crops: {
+        Row: {
+          created_at: string
+          description: string | null
+          farmer_id: string
+          grade: string
+          id: string
+          location: string
+          name: string
+          price: number
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          farmer_id: string
+          grade: string
+          id?: string
+          location: string
+          name: string
+          price: number
+          quantity: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          farmer_id?: string
+          grade?: string
+          id?: string
+          location?: string
+          name?: string
+          price?: number
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crops_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          role: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      rfqs: {
+        Row: {
+          buyer_id: string
+          created_at: string
+          crop: string
+          delivery_date: string
+          description: string | null
+          grade: string
+          id: string
+          quantity: number
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          created_at?: string
+          crop: string
+          delivery_date: string
+          description?: string | null
+          grade: string
+          id?: string
+          quantity: number
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          created_at?: string
+          crop?: string
+          delivery_date?: string
+          description?: string | null
+          grade?: string
+          id?: string
+          quantity?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rfqs_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      soil_tests: {
+        Row: {
+          advice: string | null
+          created_at: string
+          farmer_id: string
+          file_name: string
+          file_url: string
+          id: string
+        }
+        Insert: {
+          advice?: string | null
+          created_at?: string
+          farmer_id: string
+          file_name: string
+          file_url: string
+          id?: string
+        }
+        Update: {
+          advice?: string | null
+          created_at?: string
+          farmer_id?: string
+          file_name?: string
+          file_url?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "soil_tests_farmer_id_fkey"
+            columns: ["farmer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +238,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      app_role: "farmer" | "buyer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +365,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["farmer", "buyer"],
+    },
   },
 } as const
